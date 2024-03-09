@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const registryRouter = require('./routes/registry');
 const loginRouter = require('./routes/login');
 const apiRouter = require('./routes/index');
+const db = require('./db/index');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,9 +14,22 @@ app.use('/registry', registryRouter);
 app.use('/login', loginRouter);
 app.use('/api/v1', apiRouter);
 
-app.get('/heartbeat', (req, res) => {
-    console.log('[Debug] Check server status');
-    res.status(200).send('Alive');
+app.get('/heartbeat', async (req, res) => {
+    try {
+        console.log('[Debug] Check server status');
+        const healthResults = {
+            HttpServer: 'alive',
+            DB: "down"
+        }
+        const dbAlive = await db.isConnected();
+        if(dbAlive) {
+            healthResults.DB = 'alive';
+        }
+        res.status(200).send(healthResults);
+    } catch (err) {
+        console.log(`[Error] Error occurred: ${err}`);
+    }
+    
 });
 
 app.listen(Config.ServerPort, () => {
