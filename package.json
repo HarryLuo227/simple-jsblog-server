@@ -5,13 +5,15 @@
   "main": "app.js",
   "scripts": {
     "dev": "node --env-file=./envs/localhost.env app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=./envs/production.env app.js"
   },
   "author": "Harry",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.3",
     "morgan": "^1.10.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "winston": "^3.12.0"
   }
 }

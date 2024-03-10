@@ -1,4 +1,5 @@
 const Config = require('../configs/config');
+const logger = require('../utils/logger');
 const pg = require('pg');
 
 const dbConfig = {
@@ -12,20 +13,20 @@ const pool = new pg.Pool(dbConfig);
 
 async function isConnected() {
     try {
-        console.log('[Debug] Check db connection is alive');
+        logger.debug('Check db connection is alive');
         let isAlive = false;
-        console.log('[Debug] Create a connected client');
+        logger.debug('Create a connected client');
         const client = await pool.connect();
         const result = client.query('SELECT NOW()');
         if(result) {
             isAlive = true;
-            console.log('[Debug] Release connected client');
+            logger.debug('Release connected client');
             client.release();
             return isAlive;
         }
         return isAlive;
     } catch (err) {
-        console.log(`[Error] Error occurred: ${err}`);
+        logger.error(`Error occurred: ${err}`);
     }
 }
 
