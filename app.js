@@ -14,7 +14,7 @@ const registryRouter = require('./routes/registry');
 const loginRouter = require('./routes/login');
 const apiRouter = require('./routes/index');
 const db = require('./db/index');
-const redisClient = require('./db/redis');
+const redis = require('./db/redis');
 
 app.use(morgan('tiny', { stream, skip }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +34,7 @@ app.get('/heartbeat', async (req, res) => {
         if(dbAlive) {
             healthResults.DB = 'alive';
         }
-        const redisAlive = await redisClient.isConnected();
+        const redisAlive = await redis.isConnected();
         if(redisAlive) {
             healthResults.Redis = 'alive';
         }
@@ -44,6 +44,61 @@ app.get('/heartbeat', async (req, res) => {
     }
 });
 
-app.listen(Config.ServerPort, () => {
+const server = app.listen(Config.ServerPort, () => {
     logger.info(`Server is running on http://${Config.ServerAddr}:${Config.ServerPort} in ${Config.RunMode} mode`);
+});
+
+async function ShutdownDB() {
+    try {
+        logger.info('Disconnect DB ...');
+        await db.pool.end();
+        logger.debug('DB closed');
+    } catch (err) {
+        console.log(`[Error] Error occurred in closing db connection: ${err}`);
+    }
+}
+
+async function ShutdownRedis() {
+    try {
+        logger.info('Disconnect redis ...');
+        await redis.redisClient.disconnect();
+        logger.debug('Redis closed');
+    } catch (err) {
+        console.log(`[Error] Error occurred in closing redis connection: ${err}`);
+    }
+}
+
+// function ShutdownApp() {
+//     logger.info('Server is closing ...');
+//     server.close(() => {
+//         logger.info('Server closed');
+//     });
+// }
+
+process.on('SIGINT', async () => {
+    try {
+        logger.info('SIGINT signal received');
+        await ShutdownRedis();
+        await ShutdownDB();
+        logger.info('Server is closing ...');
+        server.close(() => {
+            logger.info('Server closed');
+        });
+    } catch (err) {
+        console.log(`[Error] Error occur: ${err}`);
+    }
+});
+
+process.on('SIGTERM', async () => {
+    try {
+        logger.info('SIGTERM signal received');
+        await ShutdownRedis();
+        await ShutdownDB();
+        logger.info('Server is closing ...');
+        server.close(() => {
+            logger.info('Server closed');
+        });
+    } catch (err) {
+        console.log(`[Error] Error occur: ${err}`);
+    }
 });
