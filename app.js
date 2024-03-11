@@ -14,6 +14,7 @@ const registryRouter = require('./routes/registry');
 const loginRouter = require('./routes/login');
 const apiRouter = require('./routes/index');
 const db = require('./db/index');
+const redisClient = require('./db/redis');
 
 app.use(morgan('tiny', { stream, skip }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,14 +24,19 @@ app.use('/api/v1', apiRouter);
 
 app.get('/heartbeat', async (req, res) => {
     try {
-        logger.debug('Check server status');
+        logger.info('Check server status');
         const healthResults = {
             HttpServer: 'alive',
-            DB: "down"
+            DB: 'down',
+            Redis: 'down'
         }
         const dbAlive = await db.isConnected();
         if(dbAlive) {
             healthResults.DB = 'alive';
+        }
+        const redisAlive = await redisClient.isConnected();
+        if(redisAlive) {
+            healthResults.Redis = 'alive';
         }
         res.status(200).send(healthResults);
     } catch (err) {

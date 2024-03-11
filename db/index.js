@@ -13,7 +13,7 @@ const pool = new pg.Pool(dbConfig);
 
 async function isConnected() {
     try {
-        logger.debug('Check db connection is alive');
+        logger.info('Check db connection is alive');
         let isAlive = false;
         logger.debug('Create a connected client');
         const client = await pool.connect();
