@@ -30,7 +30,21 @@ async function isConnected() {
     }
 }
 
+async function exec(sqlQuery, params) {
+    try {
+        const start = Date.now();
+        const res = await pool.query(sqlQuery, params);
+        const end = Date.now();
+        const duration = end-start;
+        logger.debug(`Execute SQL query: ${sqlQuery}, Value: ${params}, Duration: ${duration}ms`);
+        return res;
+    } catch (err) {
+        logger.error(`Execute SQL query error: ${err}`);
+    }
+}
+
 module.exports = {
     pool,
-    isConnected
+    isConnected,
+    exec
 }
