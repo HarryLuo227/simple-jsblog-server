@@ -13,7 +13,11 @@ const Config = {
     RedisAddr: process.env.REDIS_ADDRESS,
     RedisPort: process.env.REDIS_PORT,
     RedisUser: process.env.REDIS_USER,
-    RedisPassword: process.env.REDIS_PASSWORD
+    RedisPassword: process.env.REDIS_PASSWORD,
+
+    JwtIssuer: process.env.JWT_ISSUER,
+    JwtExpire: process.env.JWT_EXPIRE,
+    JwtSecret: process.env.JWT_SECRET
 }
 
 module.exports = Config;
