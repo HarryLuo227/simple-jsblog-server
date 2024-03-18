@@ -38,7 +38,7 @@ app.get('/heartbeat', async (req, res) => {
         if(redisAlive) {
             healthResults.Redis = 'alive';
         }
-        res.status(200).send(healthResults);
+        res.status(200).json(healthResults);
     } catch (err) {
         logger.error(`Error occurred: ${err}`);
     }
@@ -102,3 +102,8 @@ process.on('SIGTERM', async () => {
         console.log(`[Error] Error occur: ${err}`);
     }
 });
+
+module.exports = {
+    app,
+    server
+}
