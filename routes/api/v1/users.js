@@ -2,6 +2,37 @@ const logger = require('../../../utils/logger');
 const express = require('express');
 const router = express.Router();
 
+/**
+ * @swagger
+ * components:
+ *   UserModel:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         default: 1
+ *       fullname:
+ *         type: string
+ *         default: tester
+ *       account:
+ *         type: string
+ *         default: test@example.com
+ *       password:
+ *         type: string
+ *         default: 123456
+ *       birth:
+ *         type: string
+ *         format: date
+ *         default: 2000-01-01
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *       modified_at:
+ *         type: string
+ *         format: date-time
+ */
+
+
 router.get('/', (req, res) => {
     logger.debug('List all users');
     res.send('API is not implemented');

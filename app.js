@@ -15,7 +15,26 @@ const loginRouter = require('./routes/login');
 const apiRouter = require('./routes/index');
 const db = require('./db/index');
 const redis = require('./db/redis');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Simple-Jsblog-API',
+            version: '1.0.0',
+            description: 'API list of simple-jsblog-server'
+        }
+    },
+    apis: [
+        './routes/*.js',
+        // v1
+        './routes/api/v1/*.js'
+    ]
+}
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(morgan('tiny', { stream, skip }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/registry', registryRouter);
