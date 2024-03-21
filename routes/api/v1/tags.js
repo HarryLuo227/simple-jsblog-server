@@ -3,6 +3,42 @@ const express = require('express');
 const router = express.Router();
 const tagService = require('../../../services/tags');
 
+/**
+ * @swagger
+ * components:
+ *   TagsModel:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         default: 1
+ *       name:
+ *         type: string
+ *         default: test
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *       modified_at:
+ *         type: string
+ *         format: date-time
+ *   ErrorResponse:
+ *     type: object
+ *     properties:
+ *       ErrorMsg:
+ *         type: string
+ */
+
+/**
+ * @swagger
+ * /api/v1/tags:
+ *   get:
+ *     description: List all tags
+ *     responses:
+ *       200:
+ *         description: Success
+ *       404:
+ *         description: Not Found
+ */
 router.get('/', async (req, res) => {
     try {
         logger.debug('Get all tags');
@@ -15,6 +51,37 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/v1/tags:
+ *   post:
+ *     description: Create a new tag
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 default: test-post
+ *     responses:
+ *       201:
+ *         description: Create success and Return the tag object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/TagsModel'
+ *       409:
+ *         description: Create failure and Return json object with error message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/ErrorResponse'
+ */
 router.post('/', async (req, res) => {
     try {
         logger.debug('Create a new tag');
@@ -28,6 +95,29 @@ router.post('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/v1/tags/{tagId}:
+ *   get:
+ *     description: Get tag details by tag id
+ *     parameters:
+ *       - in: path
+ *         name: tagId
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Success and Return the tag object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/TagsModel'
+ *       404:
+ *         description: Failure and Return json object with error message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/ErrorResponse'
+ */
 router.get('/:id', async (req, res) => {
     try {
         logger.debug('Get tag details by tag id');
@@ -44,6 +134,38 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/v1/tags/{tagId}:
+ *   put:
+ *     description: Update tag details by tag id
+ *     parameters:
+ *       - in: path
+ *         name: tagId
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Update success and Return the updated tag object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/TagsModel'
+ *       404:
+ *         description: Update failure and Return json object with error message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/ErrorResponse'
+ */
 router.put('/:id', async (req, res) => {
     try {
         logger.debug('Update tag details by tag id');
@@ -55,6 +177,31 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/v1/tags/{tagId}:
+ *   delete:
+ *     description: Delete tag by tag id
+ *     parameters:
+ *       - in: path
+ *         name: tagId
+ *         required: true
+ *     responses:
+ *       204:
+ *         description: Delete success and Return nothing
+ *       404:
+ *         description: Delete failure and Return json object with error message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/ErrorResponse'
+ *       500:
+ *         description: Delete failure and Return json object with error message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/ErrorResponse'
+ */
 router.delete('/:id', async (req, res) => {
     try {
         logger.debug('Delete tag by tag id');
