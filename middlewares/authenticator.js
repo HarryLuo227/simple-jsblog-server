@@ -6,7 +6,6 @@ async function verifyAccountExist(req, res, next) {
         logger.debug('Use verifyAccountExist middleware');
 
         const sql = 'SELECT id FROM users WHERE account = $1';
-        console.log(req.body.account);
         const values = [req.body.account];
         const result = await db.exec(sql, values);
 

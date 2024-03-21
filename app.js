@@ -74,7 +74,7 @@ async function ShutdownDB() {
         await db.pool.end();
         logger.debug('DB closed');
     } catch (err) {
-        console.log(`[Error] Error occurred in closing db connection: ${err}`);
+        logger.error(`Error occurred in closing db connection: ${err}`);
     }
 }
 
@@ -84,7 +84,7 @@ async function ShutdownRedis() {
         await redis.redisClient.disconnect();
         logger.debug('Redis closed');
     } catch (err) {
-        console.log(`[Error] Error occurred in closing redis connection: ${err}`);
+        logger.error(`Error occurred in closing redis connection: ${err}`);
     }
 }
 
@@ -105,7 +105,7 @@ process.on('SIGINT', async () => {
             logger.info('Server closed');
         });
     } catch (err) {
-        console.log(`[Error] Error occur: ${err}`);
+        logger.error(`Error occur in operation after SIGINT signal received: ${err}`);
     }
 });
 
@@ -119,7 +119,7 @@ process.on('SIGTERM', async () => {
             logger.info('Server closed');
         });
     } catch (err) {
-        console.log(`[Error] Error occur: ${err}`);
+        logger.error(`Error occur in operation after SIGTERM signal received: ${err}`);
     }
 });
 
