@@ -30,10 +30,10 @@ async function isConnected() {
     }
 }
 
-async function exec(sqlQuery, params) {
+async function exec(sqlQuery, ...params) {
     try {
         const start = Date.now();
-        const res = await pool.query(sqlQuery, params);
+        const res = await pool.query(sqlQuery, ...params);
         const end = Date.now();
         const duration = end-start;
         logger.debug(`Execute SQL query: ${sqlQuery}, Value: ${params}, Duration: ${duration}ms`);

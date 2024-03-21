@@ -37,6 +37,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(morgan('tiny', { stream, skip }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/registry', registryRouter);
 app.use('/login', loginRouter);
 app.use('/api/v1', apiRouter);
