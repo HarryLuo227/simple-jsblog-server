@@ -113,7 +113,6 @@ describe('GET /api/v1/articles/:articleId', () => {
     it('should 200 success and return json object', async () => {
         const articleId = await getArticleIdByTitleAndCreatedBy(postRequestPayloads.Succeed201.title, postRequestPayloads.Succeed201.createdBy);
         const endpoint = `/api/v1/articles/${articleId}`;
-        console.log(endpoint);
         const res = await request(server)
             .get(endpoint)
             .expect(200);
