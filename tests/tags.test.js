@@ -8,11 +8,11 @@ afterEach(async () => {
     }
 });
 
-// For POST request test
+// For HTTP POST request use
 const postRequestPayload = {
     name: 'test-post'
 }
-// For PUT and DELETE request test
+// For HTTP PUT and DELETE request use
 const updatedName = 'test-delete'
 const putRequestPayload = {
     name: updatedName
@@ -53,16 +53,16 @@ describe('POST /api/v1/tags', () => {
     });
 });
 
-describe('GET /api/v1/tags/:id', () => {
+describe('GET /api/v1/tags/:tagId', () => {
     it('should 200 success and return the json object', async () => {
-        const tagId = 1;
+        const tagId = await getTagIdByName(postRequestPayload.name);
         const endpoint = `/api/v1/tags/${tagId}`;
         const res = await request(server)
             .get(endpoint)
             .expect(200);
 
-        expect(res.body.id).toBe(1);
-        expect(res.body.name).toBe('test');
+        expect(res.body.id).toBe(tagId);
+        expect(res.body.name).toBe(postRequestPayload.name);
     });
 
     it('should 404 fail and return json object with error message', async () => {
@@ -80,19 +80,17 @@ describe('GET /api/v1/tags/:id', () => {
     });
 });
 
-describe('PUT /api/v1/tags/:id', () => {
+describe('PUT /api/v1/tags/:tagId', () => {
     it('should 200 success and return updated json object', async () => {
-        const expectedId = await getTagIdByName(postRequestPayload.name);
-
-        const tagId = expectedId;
+        const tagId = await getTagIdByName(postRequestPayload.name);
         const endpoint = `/api/v1/tags/${tagId}`;
         const res = await request(server)
             .put(endpoint)
             .send(putRequestPayload)
             .expect(200);
 
-        expect(res.body.id).toEqual(expectedId);
-        expect(res.body.name).toEqual(updatedName);
+        expect(res.body.id).toEqual(tagId);
+        expect(res.body.name).toEqual(putRequestPayload.name);
     });
 
     it('should 404 failure and return json object with error message', async () => {
