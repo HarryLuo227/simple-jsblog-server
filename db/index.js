@@ -43,6 +43,10 @@ async function exec(sqlQuery, ...params) {
     }
 }
 
+async function execTransaction(callback) {
+    callback();
+}
+
 module.exports = {
     pool,
     isConnected,
