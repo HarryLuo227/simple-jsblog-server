@@ -9,7 +9,6 @@ CREATE DATABASE jsblog
 \connect jsblog;
 
 -- Create users table
--- \connect jsblog;
 CREATE TABLE IF NOT EXISTS public.users (
     id SERIAL NOT NULL,
     fullname TEXT NOT NULL,
@@ -22,8 +21,9 @@ CREATE TABLE IF NOT EXISTS public.users (
     PRIMARY KEY (id)
 );
 
+INSERT INTO users(fullname, account, password, birth) VALUES('tester', 'tester@example.com', '123456', '2000-01-01');
+
 -- Create tags table
--- \connect jsblog;
 CREATE TABLE IF NOT EXISTS public.tags (
     id SERIAL NOT NULL,
     name TEXT NOT NULL,
@@ -38,9 +38,13 @@ COMMENT ON COLUMN tags.name IS 'Tag name';
 COMMENT ON COLUMN tags.created_at IS 'Timestamp of tag created';
 COMMENT ON COLUMN tags.modified_at IS 'Timestamp of tag modified';
 
+INSERT INTO tags(name) VALUES('nodejs');
+INSERT INTO tags(name) VALUES('express');
+INSERT INTO tags(name) VALUES('postgresql');
+INSERT INTO tags(name) VALUES('redis');
+
 -- Create articles table
--- \connect jsblog;
-CREATE TABLE IF NOT EXISTS jsblog.public.articles (
+CREATE TABLE IF NOT EXISTS public.articles (
     id SERIAL NOT NULL,
     title TEXT NOT NULL,
     description TEXT DEFAULT '',
@@ -61,8 +65,7 @@ COMMENT ON COLUMN articles.created_by IS 'Article creator''s ID, must exists in 
 COMMENT ON COLUMN articles.modified_at IS 'Timestamp of tag modified';
 
 -- Create articles_tags table
--- \connect jsblog;
-CREATE TABLE IF NOT EXISTS articles_tags (
+CREATE TABLE IF NOT EXISTS public.articles_tags (
     id SERIAL NOT NULL,
     articles_id INTEGER NOT NULL REFERENCES articles(id),
     tags_id INTEGER NOT NULL REFERENCES tags(id),

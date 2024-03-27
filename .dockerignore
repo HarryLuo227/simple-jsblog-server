@@ -1,5 +1,6 @@
 Dockerfile
 coverage
+envs
 imgs
 node_modules
 sql

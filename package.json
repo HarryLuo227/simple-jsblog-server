@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node --env-file=./envs/localhost.env app.js",
     "test": "jest --detectOpenHandles",
-    "start": "node --env-file=./envs/production.env app.js"
+    "start": "node --env-file=./example.env app.js"
   },
   "author": "Harry",
   "license": "MIT",
