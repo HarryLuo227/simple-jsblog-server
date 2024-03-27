@@ -11,19 +11,40 @@ afterEach(async () => {
 describe('Application', () => {
     describe('Environment variable setting', () => {
         it('should read in correct environment variables from /envs/testing.env', async () => {
+            // const correctConfig = {
+            //     RunMode: 'test',
+            //     ServerAddr: 'localhost',
+            //     ServerPort: '3000',
+
+            //     DBServerType: 'postgres',
+            //     DBUser: 'postgres',
+            //     DBPassword: 'password',
+            //     DBAddr: '127.0.0.1',
+            //     DBPort: '5432',
+            //     DBName: 'jsblog',
+
+            //     RedisAddr: 'localhost',
+            //     RedisPort: '6379',
+            //     RedisUser: '',
+            //     RedisPassword: '',
+
+            //     JwtIssuer: 'jsblog-server',
+            //     JwtExpire: '3600',
+            //     JwtSecret: 'jsblog-app-secret-key'
+            // }
             const correctConfig = {
-                RunMode: 'test',
-                ServerAddr: 'localhost',
-                ServerPort: '3000',
+                RunMode: 'debug',
+                ServerAddr: '0.0.0.0',
+                ServerPort: '8000',
 
                 DBServerType: 'postgres',
                 DBUser: 'postgres',
                 DBPassword: 'password',
-                DBAddr: '127.0.0.1',
+                DBAddr: 'jsblog-app-postgredb',
                 DBPort: '5432',
                 DBName: 'jsblog',
 
-                RedisAddr: 'localhost',
+                RedisAddr: 'jsblog-app-redis',
                 RedisPort: '6379',
                 RedisUser: '',
                 RedisPassword: '',

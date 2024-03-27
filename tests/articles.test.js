@@ -14,7 +14,7 @@ const succeed201Payload = {
     description: '',
     content: 'This is a temp article of unit test of the create article api.',
     createdBy: 1,
-    tagsId: [31, 33, 35]
+    tagsId: [1, 2, 3, 4]
 }
 const fail404Payload = {
     title: 'testing-post-article-failure',
@@ -34,13 +34,13 @@ const succeed200Payload = {
     title: 'testing-put-article',
     description: 'Update from testing-post-article to testing-put-article',
     content: 'This is a temp article of unit test of the update article api.',
-    tagsId: [31, 35]
+    tagsId: [1, 3]
 }
 const fail400InTitlePayload = {
     title: '',
     description: 'Update from testing-post-article to testing-put-article',
     content: 'This is a temp article of unit test of the update article api.',
-    tagsId: [31, 35]
+    tagsId: [1, 3]
 }
 const fail400InTagIdPayload = {
     title: 'testing-put-article',

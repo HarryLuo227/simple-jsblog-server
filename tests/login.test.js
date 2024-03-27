@@ -17,7 +17,7 @@ describe('GET /login', () => {
 
 describe('POST /login', () => {
     it('should 200 success login and return access_token', async () => {
-        const testAccount = 'test@example.com';
+        const testAccount = 'tester@example.com';
         const testPassword = '123456';
         const loginPayload = {
             account: testAccount,
